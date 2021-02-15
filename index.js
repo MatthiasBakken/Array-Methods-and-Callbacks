@@ -66,11 +66,7 @@ function getYears(games, callback) {
     let years = [];
     // console.log(finalGames);
     for (let i = 0; i < finalGames.length; i++) {
-        if (years.includes(finalGames[i].Year)) {
-            return;
-        } else {
-            years.push(finalGames[i].Year)
-        }
+        years.push(finalGames[i].Year)
     }
     // console.log(years);
     return years;
@@ -106,8 +102,17 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(games, callback1, callback2) {
+    let years = callback1(games);
+    let winners = callback2(games);
+    let winStr = [];
+    // console.log(years);
+    // console.log(winners);
+    for (let i = 0; i < years.length; i++) {
+        winStr.push(`In ${years[i]}, ${winners[i]} won the world cup!`)
+    }
+    // console.log(winStr);
+    return winStr;
 }
 
 
@@ -122,11 +127,21 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-   /* code here */
+function getAverageGoals(callback = getFinals(fifaData)) {
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    let gameScores = [];
+    // let roundAvg = 0;
+    let gameAvg = 0;
+    for (let i = 0; i < callback.length; i++) {
+        callback[i]["Home Team Goals"] ? gameScores.push(callback[i]["Home Team Goals"]) : null;
+        callback[i]["Away Team Goals"] ? gameScores.push(callback[i]["Away Team Goals"]) : null;
+    }
+    gameScores = gameScores.reduce(reducer);
+    gameAvg = gameScores / callback.length;
+    // console.log(gameScores);
+    // console.log(gameAvg.toFixed(2));
+    return gameAvg.toFixed(2);
 }
-
-
 
 
 /// 🥅 STRETCH 🥅 ///
